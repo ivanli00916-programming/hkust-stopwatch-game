@@ -11,6 +11,7 @@
             --dark: #2c3e50;
             --bg: #f4f4f9;
         }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg);
@@ -19,15 +20,19 @@
             text-align: center;
             touch-action: manipulation;
         }
-        
+
         .logo-container img {
-            max-width: 220px;
+            width: min(42vw, 220px);
             height: auto;
             margin: 15px auto 10px;
             display: block;
         }
 
-        h1 { color: var(--dark); font-size: 26px; margin-bottom: 10px; margin-top: 5px; }
+        h1 {
+            color: var(--dark);
+            font-size: 26px;
+            margin: 5px 0 10px;
+        }
 
         .target-text {
             color: var(--dark);
@@ -35,13 +40,19 @@
             font-weight: bold;
             margin: 15px 0;
         }
+
         .target-text span {
             color: #d35400;
             font-size: 28px;
         }
 
-        .view { display: none; }
-        .active { display: block; }
+        .view {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
 
         .menu-btn {
             display: block;
@@ -55,12 +66,18 @@
             background-color: var(--primary);
             border: none;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             line-height: 1.4;
         }
-        .menu-btn:active { transform: scale(0.97); }
-        .settings-btn { background-color: #7f8c8d; }
+
+        .menu-btn:active {
+            transform: scale(0.97);
+        }
+
+        .settings-btn {
+            background-color: #7f8c8d;
+        }
 
         .back-btn {
             background-color: #95a5a6;
@@ -80,7 +97,7 @@
             margin: 0 auto;
             padding: 20px 15px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         #stopwatch-box {
@@ -91,7 +108,6 @@
             background-color: var(--primary);
             color: white;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             font-size: 34px;
@@ -108,128 +124,224 @@
             background: white;
             padding: 15px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             max-height: 75vh;
             overflow-y: auto;
         }
-        .settings-form label { display: block; margin-top: 10px; font-weight: bold; color: var(--dark); font-size: 12px; }
-        .settings-form input { width: 100%; padding: 6px; margin-top: 3px; font-size: 13px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; }
-        .settings-section { font-size: 14px; color: var(--primary); border-bottom: 2px solid var(--primary); margin-top: 12px; padding-bottom: 2px; font-weight: bold; }
 
-        .result-box { font-size: 18px; font-weight: bold; margin-top: 15px; color: var(--dark); line-height: 1.5; }
+        .settings-form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            color: var(--dark);
+            font-size: 12px;
+        }
+
+        .settings-form input {
+            width: 100%;
+            padding: 6px;
+            margin-top: 3px;
+            font-size: 13px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        .settings-section {
+            font-size: 14px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            margin-top: 12px;
+            padding-bottom: 2px;
+            font-weight: bold;
+        }
+
+        .result-box {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 15px;
+            color: var(--dark);
+            line-height: 1.5;
+        }
     </style>
 </head>
-<body>
 
+<body>
     <div id="view-game1" class="view active">
-        
-        <!-- 使用 Imgur 圖片的直接位址 -->
         <div class="logo-container">
-            <img src="https://i.imgur.com/jYAyifN.png" alt="UST Logo">
+            <img src="UST-logo-2.png" alt="HKUST Logo">
         </div>
 
         <h1>Stopwatch Challenge</h1>
-        
+
         <div class="game-card">
-            <p class="target-text">Target: Stop at exactly <span id="lbl-target-time">3.50</span>s</p>
-            
+            <p class="target-text">
+                Target: Stop at exactly
+                <span id="lbl-target-time">3.50</span>s
+            </p>
+
             <div id="stopwatch-box" onclick="actionStopwatch()">0.00s</div>
+
             <div id="sw-result" class="result-box"></div>
-            
-            <button class="menu-btn settings-btn" style="margin-top:25px; width:100%; font-size:14px;" onclick="switchView('view-settings')">⚙️ Settings Portal</button>
+
+            <button
+                class="menu-btn settings-btn"
+                style="margin-top: 25px; width: 100%; font-size: 14px;"
+                onclick="switchView('view-settings')">
+                ⚙️ Settings Portal
+            </button>
         </div>
     </div>
 
     <div id="view-settings" class="view">
-        <button class="back-btn" onclick="switchView('view-game1')">⬅ Back to Game</button>
+        <button class="back-btn" onclick="switchView('view-game1')">
+            ⬅ Back to Game
+        </button>
+
         <h1>⚙️ Settings Portal</h1>
         <p>Modify game parameters directly on your device</p>
+
         <div class="settings-form">
-            <div class="settings-section">Stopwatch Settings (Tolerance Range ±s)</div>
-            <label>Target Time (s):</label>
+            <div class="settings-section">
+                Stopwatch Settings (Tolerance Range ±s)
+            </div>
+
+            <label for="st-target">Target Time (s):</label>
             <input type="number" id="st-target" step="0.01" value="3.50">
-            <label>1st Prize Tolerance ±:</label>
+
+            <label for="st-p1">1st Prize Tolerance ±:</label>
             <input type="number" id="st-p1" step="0.01" value="0.05">
-            <label>2nd Prize Tolerance ±:</label>
+
+            <label for="st-p2">2nd Prize Tolerance ±:</label>
             <input type="number" id="st-p2" step="0.01" value="0.10">
-            <label>3rd Prize Tolerance ±:</label>
+
+            <label for="st-p3">3rd Prize Tolerance ±:</label>
             <input type="number" id="st-p3" step="0.01" value="0.20">
-            <label>4th Prize Tolerance ±:</label>
+
+            <label for="st-p4">4th Prize Tolerance ±:</label>
             <input type="number" id="st-p4" step="0.01" value="0.35">
-            <label>Backup Prize Tolerance ±:</label>
+
+            <label for="st-backup">Backup Prize Tolerance ±:</label>
             <input type="number" id="st-backup" step="0.01" value="0.50">
 
-            <button class="menu-btn" style="width:100%; margin-top:15px; padding:10px; font-size:14px;" onclick="saveSettings()">💾 Save Settings</button>
+            <button
+                class="menu-btn"
+                style="width: 100%; margin-top: 15px; padding: 10px; font-size: 14px;"
+                onclick="saveSettings()">
+                💾 Save Settings
+            </button>
         </div>
     </div>
 
     <script>
         let config = {
             stTarget: 3.50,
-            stP1: 0.05, 
-            stP2: 0.10, 
-            stP3: 0.20, 
-            stP4: 0.35, 
+            stP1: 0.05,
+            stP2: 0.10,
+            stP3: 0.20,
+            stP4: 0.35,
             stBackup: 0.50
         };
 
         function switchView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            if (viewId === 'view-game1') { resetStopwatch(); }
+            document.querySelectorAll(".view").forEach(function (view) {
+                view.classList.remove("active");
+            });
+
+            document.getElementById(viewId).classList.add("active");
+
+            if (viewId === "view-game1") {
+                resetStopwatch();
+            }
         }
 
         function saveSettings() {
-            config.stTarget = parseFloat(document.getElementById('st-target').value) || 3.50;
-            config.stP1 = parseFloat(document.getElementById('st-p1').value) || 0.05;
-            config.stP2 = parseFloat(document.getElementById('st-p2').value) || 0.10;
-            config.stP3 = parseFloat(document.getElementById('st-p3').value) || 0.20;
-            config.stP4 = parseFloat(document.getElementById('st-p4').value) || 0.35;
-            config.stBackup = parseFloat(document.getElementById('st-backup').value) || 0.50;
+            config.stTarget =
+                parseFloat(document.getElementById("st-target").value) || 3.50;
 
-            alert('✅ Settings saved successfully!');
-            switchView('view-game1');
+            config.stP1 =
+                parseFloat(document.getElementById("st-p1").value) || 0.05;
+
+            config.stP2 =
+                parseFloat(document.getElementById("st-p2").value) || 0.10;
+
+            config.stP3 =
+                parseFloat(document.getElementById("st-p3").value) || 0.20;
+
+            config.stP4 =
+                parseFloat(document.getElementById("st-p4").value) || 0.35;
+
+            config.stBackup =
+                parseFloat(document.getElementById("st-backup").value) || 0.50;
+
+            alert("Settings saved successfully!");
+            switchView("view-game1");
         }
 
-        let swState = 'IDLE', swStart = 0, swInterval = null;
+        let swState = "IDLE";
+        let swStart = 0;
+        let swInterval = null;
 
         function resetStopwatch() {
-            swState = 'IDLE';
+            swState = "IDLE";
             clearInterval(swInterval);
-            document.getElementById('lbl-target-time').innerText = config.stTarget.toFixed(2);
-            const box = document.getElementById('stopwatch-box');
-            box.innerText = '0.00s';
-            box.style.background = 'var(--primary)';
-            document.getElementById('sw-result').innerText = '';
+
+            document.getElementById("lbl-target-time").innerText =
+                config.stTarget.toFixed(2);
+
+            const box = document.getElementById("stopwatch-box");
+            box.innerText = "0.00s";
+            box.style.background = "var(--primary)";
+
+            document.getElementById("sw-result").innerText = "";
         }
 
         function actionStopwatch() {
-            const box = document.getElementById('stopwatch-box');
-            if (swState === 'IDLE') {
-                swState = 'RUNNING';
-                swStart = performance.now();
-                box.style.background = 'var(--danger)';
-                swInterval = setInterval(() => {
-                    const currentElapsed = (performance.now() - swStart) / 1000;
-                    box.innerText = `${currentElapsed.toFixed(2)}s`;
-                }, 30);
-            } else if (swState === 'RUNNING') {
-                clearInterval(swInterval);
-                const elapsed = (performance.now() - swStart) / 1000;
-                swState = 'IDLE';
-                box.innerText = `${elapsed.toFixed(2)}s`;
-                box.style.background = 'var(--primary)';
-                
-                const diff = Math.abs(elapsed - config.stTarget);
-                let prize = '';
-                if (diff <= config.stP1) prize = '🏆 1st Prize!';
-                else if (diff <= config.stP2) prize = '🥈 2nd Prize!';
-                else if (diff <= config.stP3) prize = '🥉 3rd Prize!';
-                else if (diff <= config.stP4) prize = '🏅 4th Prize!';
-                else if (diff <= config.stBackup) prize = '🛡️ Backup Prize!';
-                else prize = '🎖️ Participation Award';
+            const box = document.getElementById("stopwatch-box");
 
-                document.getElementById('sw-result').innerHTML = `Time: ${elapsed.toFixed(3)}s (Diff: ${diff.toFixed(3)}s)<br>${prize}`;
+            if (swState === "IDLE") {
+                swState = "RUNNING";
+                swStart = performance.now();
+                box.style.background = "var(--danger)";
+
+                swInterval = setInterval(function () {
+                    const currentElapsed =
+                        (performance.now() - swStart) / 1000;
+
+                    box.innerText = currentElapsed.toFixed(2) + "s";
+                }, 30);
+
+            } else if (swState === "RUNNING") {
+                clearInterval(swInterval);
+
+                const elapsed =
+                    (performance.now() - swStart) / 1000;
+
+                swState = "IDLE";
+                box.innerText = elapsed.toFixed(2) + "s";
+                box.style.background = "var(--primary)";
+
+                const diff = Math.abs(elapsed - config.stTarget);
+                let prize = "";
+
+                if (diff <= config.stP1) {
+                    prize = "🏆 1st Prize!";
+                } else if (diff <= config.stP2) {
+                    prize = "🥈 2nd Prize!";
+                } else if (diff <= config.stP3) {
+                    prize = "🥉 3rd Prize!";
+                } else if (diff <= config.stP4) {
+                    prize = "🏅 4th Prize!";
+                } else if (diff <= config.stBackup) {
+                    prize = "🛡️ Backup Prize!";
+                } else {
+                    prize = "🎖️ Participation Award";
+                }
+
+                document.getElementById("sw-result").innerHTML =
+                    "Time: " + elapsed.toFixed(3) +
+                    "s (Diff: " + diff.toFixed(3) +
+                    "s)<br>" + prize;
             }
         }
     </script>
