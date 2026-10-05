@@ -15,17 +15,35 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg);
+            /* Optional: Uncomment the line below if you have a background image named bg.png */
+            /* background-image: url('bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; */
             margin: 0;
             padding: 15px;
             text-align: center;
             touch-action: manipulation;
         }
 
-        .logo-container img {
-            width: min(42vw, 220px);
-            height: auto;
+        /* 6 Characters Container Layout */
+        .characters-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
             margin: 15px auto 10px;
-            display: block;
+            max-width: 90vw;
+            flex-wrap: wrap;
+        }
+
+        .characters-container img {
+            width: 65px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.15));
+            transition: transform 0.2s ease;
+        }
+
+        .characters-container img:hover {
+            transform: scale(1.1);
         }
 
         h1 {
@@ -91,13 +109,14 @@
         }
 
         .game-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             width: 90%;
             max-width: 450px;
             margin: 0 auto;
             padding: 20px 15px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
         }
 
         #stopwatch-box {
@@ -167,9 +186,16 @@
 </head>
 
 <body>
+    <!-- Main Game View -->
     <div id="view-game1" class="view active">
-        <div class="logo-container">
-            <img src="UST-logo-2.png" alt="HKUST Logo">
+        <!-- 6 Characters Displayed Together -->
+        <div class="characters-container">
+            <img src="char1.png" alt="Character 1">
+            <img src="char2.png" alt="Character 2">
+            <img src="char3.png" alt="Character 3">
+            <img src="char4.png" alt="Character 4">
+            <img src="char5.png" alt="Character 5">
+            <img src="char6.png" alt="Character 6">
         </div>
 
         <h1>Stopwatch Challenge</h1>
@@ -193,6 +219,7 @@
         </div>
     </div>
 
+    <!-- Settings Portal View -->
     <div id="view-settings" class="view">
         <button class="back-btn" onclick="switchView('view-game1')">
             ⬅ Back to Game
@@ -256,23 +283,12 @@
         }
 
         function saveSettings() {
-            config.stTarget =
-                parseFloat(document.getElementById("st-target").value) || 3.50;
-
-            config.stP1 =
-                parseFloat(document.getElementById("st-p1").value) || 0.05;
-
-            config.stP2 =
-                parseFloat(document.getElementById("st-p2").value) || 0.10;
-
-            config.stP3 =
-                parseFloat(document.getElementById("st-p3").value) || 0.20;
-
-            config.stP4 =
-                parseFloat(document.getElementById("st-p4").value) || 0.35;
-
-            config.stBackup =
-                parseFloat(document.getElementById("st-backup").value) || 0.50;
+            config.stTarget = parseFloat(document.getElementById("st-target").value) || 3.50;
+            config.stP1 = parseFloat(document.getElementById("st-p1").value) || 0.05;
+            config.stP2 = parseFloat(document.getElementById("st-p2").value) || 0.10;
+            config.stP3 = parseFloat(document.getElementById("st-p3").value) || 0.20;
+            config.stP4 = parseFloat(document.getElementById("st-p4").value) || 0.35;
+            config.stBackup = parseFloat(document.getElementById("st-backup").value) || 0.50;
 
             alert("Settings saved successfully!");
             switchView("view-game1");
@@ -286,8 +302,7 @@
             swState = "IDLE";
             clearInterval(swInterval);
 
-            document.getElementById("lbl-target-time").innerText =
-                config.stTarget.toFixed(2);
+            document.getElementById("lbl-target-time").innerText = config.stTarget.toFixed(2);
 
             const box = document.getElementById("stopwatch-box");
             box.innerText = "0.00s";
@@ -305,17 +320,14 @@
                 box.style.background = "var(--danger)";
 
                 swInterval = setInterval(function () {
-                    const currentElapsed =
-                        (performance.now() - swStart) / 1000;
-
+                    const currentElapsed = (performance.now() - swStart) / 1000;
                     box.innerText = currentElapsed.toFixed(2) + "s";
                 }, 30);
 
             } else if (swState === "RUNNING") {
                 clearInterval(swInterval);
 
-                const elapsed =
-                    (performance.now() - swStart) / 1000;
+                const elapsed = (performance.now() - swStart) / 1000;
 
                 swState = "IDLE";
                 box.innerText = elapsed.toFixed(2) + "s";
