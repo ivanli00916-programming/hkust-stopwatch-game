@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- 1. 禁用手勢縮放與雙擊縮放，鎖定頁面 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Stopwatch Challenge</title>
     <style>
         :root {
@@ -12,22 +13,36 @@
             --bg: #f4f4f9;
         }
 
+        /* 2. 完全鎖定頁面禁止滾動與彈跳效果 */
+        html, body {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden; /* 隱藏滾動條，鎖定畫面 */
+            position: fixed; /* 防止 iOS 瀏覽器彈跳拖拽 */
+            overscroll-behavior: none;
+            touch-action: none; /* 禁用預設觸控手勢 */
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg);
             margin: 0;
             padding: 20px 10px;
             text-align: center;
-            touch-action: manipulation;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
         }
 
-        /* 角色排版比例：加大圖片尺寸與間距 */
+        /* 角色容器 layout */
         .characters-container {
             display: flex;
             justify-content: center;
             align-items: flex-end;
             gap: 16px;
-            margin: 20px auto 15px;
+            margin: 0 auto 15px;
             max-width: 800px;
             flex-wrap: nowrap;
         }
@@ -48,17 +63,18 @@
             color: var(--dark);
             font-size: 18px;
             font-weight: 700;
-            margin: 10px 0 15px;
+            margin: 5px 0 15px;
         }
 
         /* 主容器包裹白卡片與右側按鈕 */
         .game-card-wrapper {
             position: relative;
             max-width: 380px;
+            width: 100%;
             margin: 0 auto;
         }
 
-        /* 白底卡片比例：適度縮小，精緻化 */
+        /* 白底卡片比例 */
         .game-card {
             background: #ffffff;
             width: 100%;
@@ -68,12 +84,12 @@
             box-sizing: border-box;
         }
 
-        /* 柔和且完美對齊 Target 行數的 Reset 按鈕 */
+        /* Reset 按鈕樣式 (調整定位確保iPad不溢出) */
         .reset-side-btn {
             position: absolute;
-            right: -125px; /* 與白框保持寬鬆留白 */
-            top: 22px;     /* 精準水平對齊 Target 文字行 */
-            padding: 9px 18px;
+            right: -110px;
+            top: 20px;
+            padding: 9px 16px;
             background-color: #eef2f7;
             color: #4a5568;
             border: 1px solid #dce2ec;
@@ -87,19 +103,17 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            touch-action: manipulation;
         }
 
         .reset-side-btn:hover {
             background-color: #e2e8f0;
             color: #1a202c;
             border-color: #cbd5e0;
-            transform: translateY(-1px);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
         }
 
         .reset-side-btn:active {
-            transform: translateY(0) scale(0.96);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transform: scale(0.96);
         }
 
         .target-text {
@@ -118,13 +132,14 @@
 
         .view {
             display: none;
+            width: 100%;
         }
 
         .active {
             display: block;
         }
 
-        /* 圓形計時器尺寸比例 */
+        /* 圓形計時器 */
         #stopwatch-box {
             width: 155px;
             height: 155px;
@@ -140,6 +155,7 @@
             cursor: pointer;
             user-select: none;
             box-shadow: 0 8px 18px rgba(15, 60, 126, 0.25);
+            touch-action: manipulation;
         }
 
         /* Settings Portal 按鈕 */
@@ -155,6 +171,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
+            touch-action: manipulation;
         }
 
         .menu-btn:active {
@@ -180,8 +197,9 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            max-height: 75vh;
+            max-height: 65vh;
             overflow-y: auto;
+            touch-action: pan-y; /* 設定頁面允許內部滑動 */
         }
 
         .settings-form label {
@@ -218,13 +236,32 @@
             color: var(--dark);
             line-height: 1.4;
         }
+
+        /* 3. 針對 iPad / 平板裝置自動放大滿版 (Media Queries) */
+        @media screen and (min-width: 768px) {
+            #view-game1 {
+                transform: scale(1.3); /* 將遊戲畫面等比例放大 1.3 倍 */
+                transform-origin: center center;
+            }
+
+            .reset-side-btn {
+                right: -105px; /* 平板下的 Reset 位置適度拉近 */
+            }
+        }
+
+        /* 針對大型 iPad Pro 螢幕再微調 */
+        @media screen and (min-width: 1024px) {
+            #view-game1 {
+                transform: scale(1.45); /* 放大 1.45 倍 */
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- Main Game View -->
     <div id="view-game1" class="view active">
-        <!-- 6 Characters Container (已調整順序：5, 1, 4, 3, 2, 6) -->
+        <!-- 6 Characters Container -->
         <div class="characters-container">
             <img src="char5.png" alt="Character 5">
             <img src="char1.png" alt="Character 1">
@@ -253,7 +290,7 @@
                 </button>
             </div>
 
-            <!-- 質感升級的 Reset 按鈕 -->
+            <!-- Reset 按鈕 -->
             <button class="reset-side-btn" onclick="resetStopwatch()">
                 <span>🔄</span> Reset
             </button>
@@ -310,6 +347,13 @@
             stP4: 0.35,
             stBackup: 0.50
         };
+
+        /* 防止 iOS Safari 在快速點擊時產生的畫面滾動或放大 */
+        document.addEventListener('touchmove', function(e) {
+            if (!e.target.closest('.settings-form')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         function switchView(viewId) {
             document.querySelectorAll(".view").forEach(function (view) {
