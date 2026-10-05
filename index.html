@@ -6,62 +6,74 @@
     <title>Stopwatch Challenge</title>
     <style>
         :root {
-            --primary: #003B7B;
+            --primary: #0f3c7e;
             --danger: #e74c3c;
-            --dark: #2c3e50;
+            --dark: #1f2937;
             --bg: #f4f4f9;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg);
-            /* Optional: Uncomment the line below if you have a background image named bg.png */
-            /* background-image: url('bg.png'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; */
             margin: 0;
-            padding: 15px;
+            padding: 20px 10px;
             text-align: center;
             touch-action: manipulation;
         }
 
-        /* 6 Characters Container Layout */
+        /* 角色排版比例：加大圖片尺寸與間距 */
         .characters-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 15px auto 10px;
-            max-width: 90vw;
-            flex-wrap: wrap;
+            align-items: flex-end;
+            gap: 16px;
+            margin: 20px auto 15px;
+            max-width: 800px;
+            flex-wrap: nowrap;
         }
 
         .characters-container img {
-            width: 65px;
+            width: 95px;
             height: auto;
             object-fit: contain;
-            filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.15));
+            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.12));
             transition: transform 0.2s ease;
         }
 
         .characters-container img:hover {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         h1 {
             color: var(--dark);
-            font-size: 26px;
-            margin: 5px 0 10px;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 10px 0 15px;
+        }
+
+        /* 白底卡片比例：適度縮小，精緻化 */
+        .game-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            padding: 24px 20px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            box-sizing: border-box;
         }
 
         .target-text {
             color: var(--dark);
-            font-size: 24px;
-            font-weight: bold;
-            margin: 15px 0;
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0 0 18px;
         }
 
         .target-text span {
             color: #d35400;
-            font-size: 28px;
+            font-size: 20px;
+            font-weight: 800;
         }
 
         .view {
@@ -72,29 +84,41 @@
             display: block;
         }
 
+        /* 圓形計時器尺寸比例 */
+        #stopwatch-box {
+            width: 155px;
+            height: 155px;
+            margin: 10px auto 20px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 0 8px 18px rgba(15, 60, 126, 0.25);
+        }
+
+        /* Settings Portal 按鈕 */
         .menu-btn {
             display: block;
-            width: 85%;
-            max-width: 420px;
-            margin: 12px auto;
-            padding: 15px;
-            font-size: 16px;
-            font-weight: bold;
+            width: 100%;
+            margin: 15px auto 0;
+            padding: 10px;
+            font-size: 13px;
+            font-weight: 600;
             color: white;
-            background-color: var(--primary);
+            background-color: #7b888f;
             border: none;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             cursor: pointer;
-            line-height: 1.4;
         }
 
         .menu-btn:active {
-            transform: scale(0.97);
-        }
-
-        .settings-btn {
-            background-color: #7f8c8d;
+            transform: scale(0.98);
         }
 
         .back-btn {
@@ -108,42 +132,14 @@
             margin-bottom: 10px;
         }
 
-        .game-card {
-            background: rgba(255, 255, 255, 0.95);
-            width: 90%;
-            max-width: 450px;
-            margin: 0 auto;
-            padding: 20px 15px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        #stopwatch-box {
-            width: 220px;
-            height: 220px;
-            margin: 20px auto;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 34px;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-            box-shadow: 0 8px 20px rgba(0, 59, 123, 0.3);
-        }
-
         .settings-form {
             text-align: left;
-            max-width: 420px;
+            max-width: 380px;
             margin: 0 auto;
             background: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             max-height: 75vh;
             overflow-y: auto;
         }
@@ -170,17 +166,17 @@
             font-size: 14px;
             color: var(--primary);
             border-bottom: 2px solid var(--primary);
-            margin-top: 12px;
-            padding-bottom: 2px;
+            margin-top: 10px;
+            padding-bottom: 3px;
             font-weight: bold;
         }
 
         .result-box {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 10px;
             color: var(--dark);
-            line-height: 1.5;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -188,13 +184,13 @@
 <body>
     <!-- Main Game View -->
     <div id="view-game1" class="view active">
-        <!-- 6 Characters Displayed Together -->
+        <!-- 6 Characters Container (已調整順序：5, 1, 4, 3, 2, 6) -->
         <div class="characters-container">
-            <img src="char1.png" alt="Character 1">
-            <img src="char2.png" alt="Character 2">
-            <img src="char3.png" alt="Character 3">
-            <img src="char4.png" alt="Character 4">
             <img src="char5.png" alt="Character 5">
+            <img src="char1.png" alt="Character 1">
+            <img src="char4.png" alt="Character 4">
+            <img src="char3.png" alt="Character 3">
+            <img src="char2.png" alt="Character 2">
             <img src="char6.png" alt="Character 6">
         </div>
 
@@ -202,8 +198,7 @@
 
         <div class="game-card">
             <p class="target-text">
-                Target: Stop at exactly
-                <span id="lbl-target-time">3.50</span>s
+                Target: Stop at exactly <span id="lbl-target-time">3.50</span>s
             </p>
 
             <div id="stopwatch-box" onclick="actionStopwatch()">0.00s</div>
@@ -211,8 +206,7 @@
             <div id="sw-result" class="result-box"></div>
 
             <button
-                class="menu-btn settings-btn"
-                style="margin-top: 25px; width: 100%; font-size: 14px;"
+                class="menu-btn"
                 onclick="switchView('view-settings')">
                 ⚙️ Settings Portal
             </button>
@@ -226,7 +220,7 @@
         </button>
 
         <h1>⚙️ Settings Portal</h1>
-        <p>Modify game parameters directly on your device</p>
+        <p style="font-size:13px; color:#666;">Modify game parameters directly on your device</p>
 
         <div class="settings-form">
             <div class="settings-section">
@@ -253,7 +247,7 @@
 
             <button
                 class="menu-btn"
-                style="width: 100%; margin-top: 15px; padding: 10px; font-size: 14px;"
+                style="background-color: var(--primary); margin-top: 15px;"
                 onclick="saveSettings()">
                 💾 Save Settings
             </button>
