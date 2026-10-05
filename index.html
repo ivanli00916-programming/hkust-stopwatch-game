@@ -51,16 +51,50 @@
             margin: 10px 0 15px;
         }
 
+        /* 主容器包裹白卡片與右上角按鈕 */
+        .game-card-wrapper {
+            position: relative;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+
         /* 白底卡片比例：適度縮小，精緻化 */
         .game-card {
             background: #ffffff;
             width: 100%;
-            max-width: 380px;
-            margin: 0 auto;
             padding: 24px 20px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             box-sizing: border-box;
+        }
+
+        /* 精確定位於白框右上方外的 Reset 按鈕 */
+        .reset-side-btn {
+            position: absolute;
+            right: -100px;
+            top: 20px;
+            padding: 10px 18px;
+            background-color: #ffffff;
+            color: #d35400;
+            border: 2px solid #d35400;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .reset-side-btn:hover {
+            background-color: #d35400;
+            color: #ffffff;
+        }
+
+        .reset-side-btn:active {
+            transform: scale(0.95);
         }
 
         .target-text {
@@ -196,19 +230,26 @@
 
         <h1>Stopwatch Challenge</h1>
 
-        <div class="game-card">
-            <p class="target-text">
-                Target: Stop at exactly <span id="lbl-target-time">3.50</span>s
-            </p>
+        <div class="game-card-wrapper">
+            <div class="game-card">
+                <p class="target-text">
+                    Target: Stop at exactly <span id="lbl-target-time">3.50</span>s
+                </p>
 
-            <div id="stopwatch-box" onclick="actionStopwatch()">0.00s</div>
+                <div id="stopwatch-box" onclick="actionStopwatch()">0.00s</div>
 
-            <div id="sw-result" class="result-box"></div>
+                <div id="sw-result" class="result-box"></div>
 
-            <button
-                class="menu-btn"
-                onclick="switchView('view-settings')">
-                ⚙️ Settings Portal
+                <button
+                    class="menu-btn"
+                    onclick="switchView('view-settings')">
+                    ⚙️ Settings Portal
+                </button>
+            </div>
+
+            <!-- 白框右上方外側的 Reset 按鈕 -->
+            <button class="reset-side-btn" onclick="resetStopwatch()">
+                🔄 Reset
             </button>
         </div>
     </div>
